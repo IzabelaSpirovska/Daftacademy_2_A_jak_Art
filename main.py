@@ -17,9 +17,7 @@ def wraps(*args, **kwargs):
 def example():
     """EXAMPLE"""
     return "PYTHON"
- 
-print(example())
- 
+
 assert example.__doc__ == """EXAMPLE"""
 
 #--- TASK 2 -----------------------------------------------------------
