@@ -72,12 +72,10 @@ def add_date(format):
         return wrapper
     return decorator
  
- 
 if __name__ == "__main__":
  
     @add_date('%B %Y')
     def get_data(a):
         return {1: a, 'name': 'Jan'}
 
- 
     assert get_data(2) == {1: 2, 'name': 'Jan', 'date': 'April 2020'}
