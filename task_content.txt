@@ -1,0 +1,75 @@
+#--- TASK 1 -----------------------------------------------------------
+
+Napisz dekorator @wraps, który będzie działał tak jak ten dostępny w bibliotece standardowej: functoolds.wraps. 
+Wystarczy, że podmieni pola wymienione typu __name__, __module__ __doc__, __qualname__, __annotations__: https://docs.python.org/3.8/library/functools.html#functools.wraps
+
+Przykład:
+
+def bumelant(*args, **kwargs):
+    def wrap(to_be_decorated):
+        @wraps(to_be_decorated)
+        def wrapper(*args, **kwargs):
+            return to_be_decorated(*args, **kwargs)
+        return wrapper
+    return wrap
+
+
+@bumelant(1, 2)
+def say_python():
+    """jakis opis"""
+    return "PYTHON"
+
+
+assert say_python.__doc__ == "jakis opis"
+
+#--- TASK 2 -----------------------------------------------------------
+
+Napisz dekorator @is_correct,  który opakowuje funkcję zwracającą słownik. 
+Dekorator ma sprawdzić czy w słowniku znajdują się klucze zawarte w argumentach dekoratora. 
+Jeśli tak niech zwróci ten słownik, jeśli nie, niech zwraca wartość None.
+
+Przykład:
+
+@is_correct('first_name', 'last_name')
+def get_data():
+    return {
+        'first_name': 'Jan',
+        'last_name': 'Kowalski',
+        'email': 'jan@kowalski.com'
+    }
+
+
+@is_correct('first_name', 'last_name', 'email')
+def get_other_data():
+    return {
+        'first_name': 'Jan',
+        'email': 'jan@kowalski.com'
+    }
+
+
+assert get_data() == {
+        'first_name': 'Jan',
+        'last_name': 'Kowalski',
+        'email': 'jan@kowalski.com'
+    }
+
+
+assert get_other_data() is None
+
+#--- TASK 3 -----------------------------------------------------------
+
+Napisz dekorator @add_date,  który opakowuje funkcję zwracającą słownik. 
+Dekorator ma dodać aktualną datę do zwracanego przez dekorowaną funkcję słownika w formacie podanym jako argument dekoratora.
+
+Użyj modułu datetime korzystając z datetime.datetime.now() do pobrania aktualnej daty. Więcej informacji o formatowaniu znajdziesz tutaj:
+https://docs.python.org/3/library/datetime.html#strftime-and-strptime-behavior
+
+Przykład:  
+
+@add_date('%B %Y')
+def get_data(a):
+    return {1: a, 'name': 'Jan'}
+
+
+assert get_data(2) == {
+    1: 2, 'name': 'Jan', 'date': 'April 2020'
